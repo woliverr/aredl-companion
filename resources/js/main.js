@@ -60,8 +60,20 @@ addLevelButton.addEventListener('click', () => {
     removeButton.type = 'button';
     removeButton.textContent = 'X';
 
+    const upButton = document.createElement('button');
+    upButton.classList.add('up-button');
+    upButton.type = 'button';
+    upButton.textContent = '↑';
+
+    const downButton = document.createElement('button');
+    downButton.classList.add('down-button');
+    downButton.type = 'button';
+    downButton.textContent = '↓';
+
     newLevel.appendChild(header);
     newLevel.appendChild(removeButton);
+    newLevel.appendChild(upButton);
+    newLevel.appendChild(downButton);
     document.body.insertBefore(newLevel, addLevelButton);
 });
 
@@ -69,5 +81,25 @@ addLevelButton.addEventListener('click', () => {
 document.body.addEventListener('click', (event) => {
     if (event.target.classList.contains('remove-level')) {
         event.target.closest('.level').remove();
+    }
+});
+
+document.body.addEventListener('click', (event) => {
+    if (event.target.classList.contains('up-button')) {
+        const level = event.target.closest('.level');
+        const previousLevel = level.previousElementSibling;
+        if (previousLevel && previousLevel.classList.contains('level')) {
+            level.parentNode.insertBefore(level, previousLevel);
+        }
+    }
+});
+
+document.body.addEventListener('click', (event) => {
+    if (event.target.classList.contains('down-button')) {
+        const level = event.target.closest('.level');
+        const nextLevel = level.nextElementSibling;
+        if (nextLevel && nextLevel.classList.contains('level')) {
+            level.parentNode.insertBefore(nextLevel, level);
+        }
     }
 });
