@@ -3,7 +3,7 @@ body {
     color:azure;
     padding-left: 30px;
     padding-bottom:70px;
-    padding-top:30px;
+    padding-top:140px;
 }
 
 body.light-mode {
@@ -34,4 +34,29 @@ footer {
     width:100%;
     padding-left:25px;
     height:50px;
+}
+
+header {
+    background-color:cadetblue;
+    position: fixed;
+    z-index: 1000;
+    top:0;
+    left:0;
+    width:100%;
+    padding-left:25px;
+    padding-right:25px;
+    height:100px;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+
+div {
+    display: flex;
+    align-items: center;
+    justify-content:last-start;
 }
