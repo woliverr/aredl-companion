@@ -2,17 +2,19 @@
  * Main JavaScript file for web application
  */
 
-
 // Add buttons to existing levels
 document.querySelectorAll('.level').forEach(addRemoveButton);
 document.querySelectorAll('.level').forEach(addUpButton);
 document.querySelectorAll('.level').forEach(addDownButton);
 
-// Initialize buttons
+// Initialize dark mode and add level buttons
 const darkModeButton = document.getElementById('theme-toggle');
 const addLevelButton = document.getElementById('add-level');
 
-// Function to add a remove button to a level
+
+
+
+// Helper function to add a remove button to a level
 function addRemoveButton(level) {
     const removeButton = document.createElement('button');
     removeButton.classList.add('remove-level');
@@ -21,7 +23,7 @@ function addRemoveButton(level) {
     level.appendChild(removeButton);
 }
 
-// Function to add an up button to a level
+// Helper function to add an up button to a level
 function addUpButton(level) {
     const upButton = document.createElement('button');
     upButton.classList.add('up-button');
@@ -30,7 +32,7 @@ function addUpButton(level) {
     level.appendChild(upButton);
 }
 
-// Function to add a down button to a level
+// Helper function to add a down button to a level
 function addDownButton(level) {
     const downButton = document.createElement('button');
     downButton.classList.add('down-button');
@@ -42,7 +44,21 @@ function addDownButton(level) {
 // Dark mode toggle
 darkModeButton.addEventListener('click', () => {
     document.body.classList.toggle('light-mode');
+    
+    // Set up and handle localStorage for dark mode preference
+    if (document.body.classList.contains('light-mode')) {
+        localStorage.setItem('darkMode', 'false');
+    } else {
+        localStorage.setItem('darkMode', 'true');
+    }
 });
+
+// Persistent dark mode
+if (localStorage.getItem('darkMode') === 'true') {
+    document.body.classList.remove('light-mode');
+} else {
+    document.body.classList.add('light-mode');
+}
 
 // Add new level
 addLevelButton.addEventListener('click', () => {
@@ -54,26 +70,12 @@ addLevelButton.addEventListener('click', () => {
     
     const header = document.createElement('h2');
     header.textContent = name;
-
-    const removeButton = document.createElement('button');
-    removeButton.classList.add('remove-level');
-    removeButton.type = 'button';
-    removeButton.textContent = 'X';
-
-    const upButton = document.createElement('button');
-    upButton.classList.add('up-button');
-    upButton.type = 'button';
-    upButton.textContent = '↑';
-
-    const downButton = document.createElement('button');
-    downButton.classList.add('down-button');
-    downButton.type = 'button';
-    downButton.textContent = '↓';
-
     newLevel.appendChild(header);
-    newLevel.appendChild(removeButton);
-    newLevel.appendChild(upButton);
-    newLevel.appendChild(downButton);
+
+    addRemoveButton(newLevel);
+    addUpButton(newLevel);
+    addDownButton(newLevel);
+
     document.body.insertBefore(newLevel, addLevelButton);
 });
 
@@ -84,6 +86,7 @@ document.body.addEventListener('click', (event) => {
     }
 });
 
+// Move level up on button click
 document.body.addEventListener('click', (event) => {
     if (event.target.classList.contains('up-button')) {
         const level = event.target.closest('.level');
@@ -94,6 +97,7 @@ document.body.addEventListener('click', (event) => {
     }
 });
 
+// Move level down on button click
 document.body.addEventListener('click', (event) => {
     if (event.target.classList.contains('down-button')) {
         const level = event.target.closest('.level');
@@ -103,3 +107,4 @@ document.body.addEventListener('click', (event) => {
         }
     }
 });
+
