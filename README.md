@@ -1,0 +1,1 @@
+This is a personal project which aims both to be a useful application to store my and my friends' top Geometry Dash completions as well as career development and an opportunity to learn more software engineering concepts.
