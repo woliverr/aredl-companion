@@ -11,6 +11,7 @@ document.querySelectorAll('.level').forEach(addDownButton);
 const darkModeButton = document.getElementById('theme-toggle');
 const addLevelButton = document.getElementById('add-level');
 const newLevelContainer = document.getElementById('new-level-container')
+const submissionForm = document.getElementById('new-level');
 
 // Load levelList
 let levelList = JSON.parse(localStorage.getItem("levelList")) ?? [];
@@ -47,12 +48,15 @@ function drawList() {
 }
 
 // Add new level
-addLevelButton.addEventListener('click', () => {
-    const name = prompt('Enter level name:');
-    if (!name || !name.trim()) return;
+submissionForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const input = document.getElementById('level-input');
+    const name = input.value;
+    console.log(name);
     levelList.push(name);
     saveLevels();
     drawList();
+    e.target.reset();
 });
 
 // Remove level on button click
