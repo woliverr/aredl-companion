@@ -10,10 +10,18 @@ document.querySelectorAll('.level').forEach(addDownButton);
 // Initialize dark mode and add level buttons
 const darkModeButton = document.getElementById('theme-toggle');
 const addLevelButton = document.getElementById('add-level');
+const newLevelContainer = document.getElementById('new-level-container')
 
 // Load levelList
 let levelList = JSON.parse(localStorage.getItem("levelList")) ?? [];
 drawList();
+
+// List empty text
+if (levelList.length === 0) {
+    const text = document.createElement('p');
+    text.textContent = "Welcome to the list. Add a level to get started!";
+    document.body.insertBefore(text, newLevelContainer);
+}
 
 // Function to redraw the list
 function drawList() {
@@ -26,11 +34,13 @@ function drawList() {
         header.textContent = level;
         newLevel.appendChild(header);
 
-        addRemoveButton(newLevel);
-        addUpButton(newLevel);
-        addDownButton(newLevel);
+        const buttonContainer = document.createElement('div');
+        addRemoveButton(buttonContainer);
+        addUpButton(buttonContainer);
+        addDownButton(buttonContainer);
+        newLevel.appendChild(buttonContainer);
 
-        document.body.insertBefore(newLevel, addLevelButton);
+        document.body.insertBefore(newLevel, newLevelContainer);
     }
     saveLevels();
     console.log(levelList);
