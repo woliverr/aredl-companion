@@ -11,8 +11,84 @@ document.querySelectorAll('.level').forEach(addDownButton);
 const darkModeButton = document.getElementById('theme-toggle');
 const addLevelButton = document.getElementById('add-level');
 
+// Load levelList
+let levelList = JSON.parse(localStorage.getItem("levelList")) ?? [];
+drawList();
 
+// Function to redraw the list
+function drawList() {
+    document.querySelectorAll('.level').forEach(level => level.remove());
+    for (const level of levelList) {
+        const newLevel = document.createElement('div');
+        newLevel.classList.add('level');
+    
+        const header = document.createElement('h2');
+        header.textContent = level;
+        newLevel.appendChild(header);
 
+        addRemoveButton(newLevel);
+        addUpButton(newLevel);
+        addDownButton(newLevel);
+
+        document.body.insertBefore(newLevel, addLevelButton);
+    }
+    saveLevels();
+    console.log(levelList);
+}
+
+// Add new level
+addLevelButton.addEventListener('click', () => {
+    const name = prompt('Enter level name:');
+    if (!name || !name.trim()) return;
+    levelList.push(name);
+    saveLevels();
+    drawList();
+});
+
+// Remove level on button click
+document.body.addEventListener('click', (event) => {
+    if (event.target.classList.contains('remove-level')) {
+
+        // Find level position in the DOM using an array of all DOM level elements and then finding where the current level is.
+        const level = event.target.closest('.level');
+        const allLevels = Array.from(document.querySelectorAll('.level'));
+        const levelPosition = allLevels.indexOf(level);
+
+        level.remove();
+        levelList.splice(levelPosition, 1);
+        saveLevels();
+    }
+});
+
+// Move level up on button click
+document.body.addEventListener('click', (event) => {
+    if (event.target.classList.contains('up-button')) {
+        const level = event.target.closest('.level');
+        const allLevels = Array.from(document.querySelectorAll('.level'));
+        const levelPosition = allLevels.indexOf(level);
+        
+        if (levelList[levelPosition - 1]) {
+            [levelList[levelPosition], levelList[levelPosition - 1]] = [levelList[levelPosition - 1], levelList[levelPosition]];
+            saveLevels();
+            drawList();
+        }
+    }
+});
+
+// Move level down on button click
+document.body.addEventListener('click', (event) => {
+    if (event.target.classList.contains('down-button')) {
+        const level = event.target.closest('.level');
+        const allLevels = Array.from(document.querySelectorAll('.level'));
+        const levelPosition = allLevels.indexOf(level);
+        
+        if (levelList[levelPosition + 1]) {
+            [levelList[levelPosition], levelList[levelPosition + 1]] = [levelList[levelPosition + 1], levelList[levelPosition]];
+            saveLevels();
+            drawList();
+        }
+    }
+});
 
 // Helper function to add a remove button to a level
 function addRemoveButton(level) {
@@ -41,6 +117,11 @@ function addDownButton(level) {
     level.appendChild(downButton);
 }
 
+//Save levels
+function saveLevels() {
+    localStorage.setItem("levelList", JSON.stringify(levelList));
+}
+
 // Dark mode toggle
 darkModeButton.addEventListener('click', () => {
     document.body.classList.toggle('light-mode');
@@ -59,52 +140,3 @@ if (localStorage.getItem('darkMode') === 'true') {
 } else {
     document.body.classList.add('light-mode');
 }
-
-// Add new level
-addLevelButton.addEventListener('click', () => {
-    const name = prompt('Enter level name:');
-    if (!name || !name.trim()) return;
-    
-    const newLevel = document.createElement('div');
-    newLevel.classList.add('level');
-    
-    const header = document.createElement('h2');
-    header.textContent = name;
-    newLevel.appendChild(header);
-
-    addRemoveButton(newLevel);
-    addUpButton(newLevel);
-    addDownButton(newLevel);
-
-    document.body.insertBefore(newLevel, addLevelButton);
-});
-
-// Remove level on button click
-document.body.addEventListener('click', (event) => {
-    if (event.target.classList.contains('remove-level')) {
-        event.target.closest('.level').remove();
-    }
-});
-
-// Move level up on button click
-document.body.addEventListener('click', (event) => {
-    if (event.target.classList.contains('up-button')) {
-        const level = event.target.closest('.level');
-        const previousLevel = level.previousElementSibling;
-        if (previousLevel && previousLevel.classList.contains('level')) {
-            level.parentNode.insertBefore(level, previousLevel);
-        }
-    }
-});
-
-// Move level down on button click
-document.body.addEventListener('click', (event) => {
-    if (event.target.classList.contains('down-button')) {
-        const level = event.target.closest('.level');
-        const nextLevel = level.nextElementSibling;
-        if (nextLevel && nextLevel.classList.contains('level')) {
-            level.parentNode.insertBefore(nextLevel, level);
-        }
-    }
-});
-
