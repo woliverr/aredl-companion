@@ -65,7 +65,6 @@ function App() {
         <button type="button" id="theme-toggle" onClick={() => {
           setDarkMode(!darkMode);
           localStorage.setItem("darkMode", JSON.stringify(!darkMode));
-          console.log(JSON.parse(darkMode));
         }}>Toggle Dark Theme</button>
       </header>
       <div>
