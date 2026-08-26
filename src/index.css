@@ -1,0 +1,13 @@
+body {
+    padding-left: 30px;
+    padding-bottom:70px;
+    padding-top:140px;
+    font-family: Avenir, Montserrat, Corbel, 'URW Gothic', sans-serif;
+    background-color:white;
+    color:black;
+}
+
+.dark-mode{
+    background-color: #2f3142;
+    color:azure;
+}
