@@ -15,6 +15,7 @@ function App() {
   );
   const [editMode, setEditMode] = useState(false);
   const [levelInput, setLevelInput] = useState('');
+  const [searchInput, setSearchInput] = useState('');
 
 // Update darkMode upon toggle
   useEffect(() => {
@@ -32,6 +33,19 @@ function App() {
 
   function addNewLevel(level){
     setLevelList([...levelList, { id: crypto.randomUUID(), name: level }]);
+  }
+
+  async function searchAPI(event){
+    event.preventDefault();
+
+    const response = await fetch(
+            `https://api.globalstatsviewer.com/v3/levels?search=${encodeURIComponent(searchInput)}&limit=24`
+        );
+
+    const data = await response.json();
+
+    console.log(data);
+    setSearchInput('');
   }
 
 // Submit level
@@ -85,9 +99,13 @@ function App() {
       <div className="new-level-container">
         <form id="new-level" onSubmit={submitLevel}>
           <input type="text" id="level-input" value={levelInput} onChange={(e) => setLevelInput(e.target.value)}/>
-          <button type="submit" id="add-level">Add Level</button>
+          <button type="submit">Add Level</button>
         </form>
       </div>
+      <form id="search-api" onSubmit={searchAPI}>
+          <input type="text" id="search-input" value={searchInput} onChange={(e) => setSearchInput(e.target.value)}/>
+          <button type="submit">Search Database</button>
+        </form>
       <footer>
         <p>&copy; 2026 AREDL Companion. Made by William Oliver.</p>
       </footer>
