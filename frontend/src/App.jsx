@@ -13,7 +13,6 @@ function App() {
   const [darkMode, setDarkMode] = useState(
     JSON.parse(localStorage.getItem("darkMode")) ?? true
   );
-  const [editMode, setEditMode] = useState(false);
   const [levelInput, setLevelInput] = useState('');
   const [searchInput, setSearchInput] = useState('');
 
@@ -71,6 +70,17 @@ function App() {
     }
   }
 
+  function callBackend(){
+    fetch('http://localhost:5000/api/message')
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data.text);
+    })
+    .catch((error) => {
+      console.log("Error connecting to backend:", error);
+    });
+  }
+
 // Return function
   return (
     <div>
@@ -103,9 +113,10 @@ function App() {
         </form>
       </div>
       <form id="search-api" onSubmit={searchAPI}>
-          <input type="text" id="search-input" value={searchInput} onChange={(e) => setSearchInput(e.target.value)}/>
-          <button type="submit">Search Database</button>
-        </form>
+        <input type="text" id="search-input" value={searchInput} onChange={(e) => setSearchInput(e.target.value)}/>
+        <button type="submit">Search Database</button>
+      </form>
+      <button type="button" onClick={callBackend}>Click me!</button>
       <footer>
         <p>&copy; 2026 AREDL Companion. Made by William Oliver.</p>
       </footer>
