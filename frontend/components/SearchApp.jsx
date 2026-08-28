@@ -3,7 +3,7 @@
     import SearchResults from './SearchResults'
 
 
-    function SearchApp(){
+    function SearchApp( {submitFn} ){
 
         const [results, setResults] = useState([]);
         const [gsvResults, setGsvResults] = useState([]);
@@ -48,10 +48,10 @@
                     formContents={searchInput}
                     updateFormFn={setSearchInput} 
                 />
-                <SearchResults results={results} />
+                <SearchResults results={results} submitFn={submitFn} />
                 <h3>Can't find what you're looking for?</h3>
                 <button onClick={searchGSV}>Search Global Stats Viewer</button>
-                <SearchResults results={gsvResults} />
+                <SearchResults results={gsvResults} submitFn={submitFn} />
             </div>
         )
     }

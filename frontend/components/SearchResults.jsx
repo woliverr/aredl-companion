@@ -1,6 +1,6 @@
 import LevelCard from './LevelCard'
 
-function SearchResults({ results }){
+function SearchResults({ results, submitFn }){
     return(
         <div className="search-result-container">
             {results.map((item) => 
@@ -10,6 +10,7 @@ function SearchResults({ results }){
                     id={item.id}
                     uploader={item.uploader}
                     difficulty={item.difficulty}
+                    submitFn={submitFn}
                 />
             )}
         </div>

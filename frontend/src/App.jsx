@@ -35,7 +35,7 @@ function App() {
   }, [levelList]);
 
   function addNewLevel(level){
-    setLevelList([...levelList, { id: crypto.randomUUID(), name: level }]);
+    setLevelList([...levelList, level]);
   }
 
 // Submit level
@@ -79,7 +79,8 @@ function App() {
         formContents={levelInput}
         updateFormFn={setLevelInput}
       />
-      <SearchApp />
+      <SearchApp 
+        submitFn={addNewLevel}/>
       <Footer />
     </div>
   )
