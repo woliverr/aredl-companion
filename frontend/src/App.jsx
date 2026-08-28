@@ -19,7 +19,6 @@ function App() {
     JSON.parse(localStorage.getItem("darkMode")) ?? true
   );
   const [levelInput, setLevelInput] = useState('');
-  const [searchInput, setSearchInput] = useState('');
 
 // Update darkMode upon toggle
   useEffect(() => {
@@ -78,7 +77,7 @@ function App() {
         buttonName={"Add Level"}
         submitFn={submitLevel} 
         formContents={levelInput}
-        updateFormFn={setLevelInput}  
+        updateFormFn={setLevelInput}
       />
       <SearchApp />
       <Footer />

@@ -5,6 +5,7 @@ function LevelCard({ name, id, uploader, difficulty }){
             <p>{id}</p>
             <p>by {uploader}</p>
             <p>difficulty: {difficulty}</p>
+            <button>Add Level</button>
         </div>
     )
 }
