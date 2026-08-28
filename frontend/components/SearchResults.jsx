@@ -1,0 +1,19 @@
+import LevelCard from './LevelCard'
+
+function SearchResults({ results }){
+    return(
+        <div>
+            {results.map((item) => 
+                <LevelCard 
+                    key={item.id}
+                    name={item.name}
+                    id={item.id}
+                    uploader={item.uploader}
+                    difficulty={item.difficulty}
+                />
+            )}
+        </div>
+    )
+}
+
+export default SearchResults

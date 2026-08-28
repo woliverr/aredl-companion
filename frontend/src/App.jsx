@@ -3,7 +3,8 @@ import './App.css'
 import Header from '../components/header'
 import Footer from '../components/footer'
 import LevelList from '../components/LevelList'
-import AddLevel from '../components/AddLevelForm'
+import InputForm from '../components/InputForm'
+import SearchApp from '../components/SearchApp'
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
     JSON.parse(localStorage.getItem("darkMode")) ?? true
   );
   const [levelInput, setLevelInput] = useState('');
+  const [searchInput, setSearchInput] = useState('');
 
 // Update darkMode upon toggle
   useEffect(() => {
@@ -72,11 +74,13 @@ function App() {
         removeFn={removeLevel} 
         moveFn={moveLevel} 
       />
-      <AddLevel 
+      <InputForm 
+        buttonName={"Add Level"}
         submitFn={submitLevel} 
-        formContents={levelInput} 
+        formContents={levelInput}
         updateFormFn={setLevelInput}  
       />
+      <SearchApp />
       <Footer />
     </div>
   )

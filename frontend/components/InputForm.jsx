@@ -1,12 +1,12 @@
-function AddLevelForm({ submitFn, formContents, updateFormFn }){
+function InputForm({ buttonName, submitFn, formContents, updateFormFn }){
     return (
         <div className="new-level-container">
             <form id="new-level" onSubmit={submitFn}>
                 <input type="text" id="level-input" value={formContents} onChange={(e) => updateFormFn(e.target.value)}/>
-                <button type="submit">Add Level</button>
+                <button type="submit">{buttonName}</button>
             </form>
         </div>
     )
 }
 
-export default AddLevelForm
+export default InputForm
