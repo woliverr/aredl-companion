@@ -11,7 +11,7 @@
 
         async function submitSearch(event){
             event.preventDefault();
-            const response = await fetch(`http://localhost:5000/api/search?name=${searchInput}`)
+            const response = await fetch(`http://localhost:5000/api/levels?name=${searchInput}`)
             const data = await response.json();
             setResults(data);
         }
@@ -29,6 +29,14 @@
                 }
             });
             setGsvResults(normalized_data);
+
+            fetch('http://localhost:5000/api/levels', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(normalized_data)
+            });
         }
 
         return(

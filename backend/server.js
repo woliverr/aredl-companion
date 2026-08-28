@@ -18,7 +18,7 @@ app.listen(5000, () => {
     console.log("Server is running on http://localhost:5000");
 });
 
-app.get('/api/search', async (req, res) => {
+app.get('/api/levels', async (req, res) => {
     const { name } = req.query;
 
     console.log("name:", name);
@@ -32,3 +32,24 @@ app.get('/api/search', async (req, res) => {
 
     res.json(result.rows);
 });
+
+app.post('/api/levels', async (req, res) => {
+
+    for (const level of req.body) {
+        const { id, name, difficulty, uploader } = level;
+
+        const query = `
+            INSERT INTO levels(id, name, difficulty, uploader)
+            VALUES($1, $2, $3, $4)
+            ON CONFLICT (id) DO NOTHING
+        `;
+
+        const values = [id, name, difficulty, uploader];
+
+        await pool.query(query, values);
+    }
+
+    res.send("Success!");
+
+});
+
