@@ -14,22 +14,21 @@ const pool = new Pool({
     port:5432
 });
 
-app.get('/api/message', (req, res) => {
-    res.json({ text: "Hello from the backend!" });
-});
-
-
 app.listen(5000, () => {
     console.log("Server is running on http://localhost:5000");
 });
 
-async function testDatabase() {
-    try {
-        const result = await pool.query('SELECT * FROM levels');
-        console.log(result.rows);
-    } catch (err) {
-        console.error(err);
-    }
-}
+app.get('/api/search', async (req, res) => {
+    const { name } = req.query;
 
-testDatabase();
+    console.log("name:", name);
+
+    const result = await pool.query(
+        'SELECT * FROM levels WHERE name ILIKE $1',
+        [`%${name}%`]
+    );
+
+    console.log("results:", result.rows);
+
+    res.json(result.rows);
+});

@@ -14,10 +14,13 @@ function SearchApp(){
     function submitSearch(event){
         event.preventDefault();
         performSearch();
+        
     }
 
-    function performSearch(){
-        // WIRE TO BACKEND
+    async function performSearch(){
+        const response = await fetch(`http://localhost:5000/api/search?name=${searchInput}`)
+        const data = await response.json();
+        setResults(data);
     }
 
     return(
@@ -28,9 +31,7 @@ function SearchApp(){
                 formContents={searchInput}
                 updateFormFn={setSearchInput} 
             />
-            <SearchResults
-                results={results}
-            />
+            <SearchResults results={results} />
         </div>
     )
 }

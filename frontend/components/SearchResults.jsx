@@ -2,7 +2,7 @@ import LevelCard from './LevelCard'
 
 function SearchResults({ results }){
     return(
-        <div>
+        <div className="search-result-container">
             {results.map((item) => 
                 <LevelCard 
                     key={item.id}
