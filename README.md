@@ -28,7 +28,6 @@ A full-stack web application for searching, storing, and managing Geometry Dash 
 - Node.js
 - Express.js
 - PostgreSQL
-- `pg`
 - CORS
 
 ### External API
