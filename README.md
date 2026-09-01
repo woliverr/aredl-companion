@@ -1,35 +1,45 @@
-Geometry Dash Level Database
+# Geometry Dash Level Database
 
 A full-stack web application for searching, storing, and managing Geometry Dash level data. The application combines a React frontend with an Express.js/Node.js backend and PostgreSQL database, with external level data provided by the Global Stats Viewer API.
 
-Features
-Search for Geometry Dash levels by name
-Search locally stored levels through a PostgreSQL database
-Retrieve levels from the Global Stats Viewer API when they aren't found locally
-Store externally retrieved level data in the application's database
-Add levels to a personal level list
-Remove levels from the list
-Reorder levels
-Persist the personal level list using localStorage
-Toggle between light and dark mode
-RESTful API for interacting with the PostgreSQL database
-Tech Stack
-Frontend
-React
-JavaScript
-HTML/CSS
-Backend
-Node.js
-Express.js
-PostgreSQL
-pg
-CORS
-External API
-Global Stats Viewer API
-Architecture
+## Features
+
+- Search for Geometry Dash levels by name
+- Search locally stored levels through a PostgreSQL database
+- Retrieve levels from the Global Stats Viewer API when they aren't found locally
+- Store externally retrieved level data in the application's database
+- Add levels to a personal level list
+- Remove levels from the list
+- Reorder levels
+- Persist the personal level list using localStorage
+- Toggle between light and dark mode
+- REST API for interacting with the PostgreSQL database
+
+## Tech Stack
+
+### Frontend
+
+- React
+- JavaScript
+- HTML/CSS
+
+### Backend
+
+- Node.js
+- Express.js
+- PostgreSQL
+- `pg`
+- CORS
+
+### External API
+
+- Global Stats Viewer API
+
+## Architecture
 
 The application is separated into a React frontend, Express.js backend, and PostgreSQL database.
 
+```text
 ┌─────────────────────┐
 │    React Frontend   │
 │                     │
@@ -60,86 +70,120 @@ The application is separated into a React frontend, Express.js backend, and Post
 │ Global Stats Viewer │
 │        API          │
 └─────────────────────┘
-How It Works
+```
+
+## How It Works
 
 When a user searches for a level, the React frontend sends a request to the Express backend.
 
 The backend queries PostgreSQL using a parameterized SQL query:
 
+```sql
 SELECT * FROM levels
 WHERE name ILIKE $1
+```
 
 If the desired level cannot be found locally, the application can query the Global Stats Viewer API. The returned data is then normalized into the application's database structure before being displayed and stored.
 
 For example, external API data is converted into a consistent format:
 
+```javascript
 {
     name: level.level_name,
     id: level.level_id,
     uploader: level.creator.name,
     difficulty: level.difficulty
 }
+```
 
 This allows data from the external API and the application's own database to use the same structure.
 
-API Endpoints
-GET /api/levels
+## API Endpoints
+
+### `GET /api/levels`
 
 Search for levels stored in PostgreSQL.
 
-Query parameter:
+**Query parameter:**
 
+```text
 name
+```
 
 Example:
 
+```text
 GET /api/levels?name=Bloodbath
-POST /api/levels
+```
+
+### `POST /api/levels`
 
 Add one or more levels to the PostgreSQL database.
 
-Duplicate level IDs are ignored using PostgreSQL's ON CONFLICT handling.
+Duplicate level IDs are ignored using PostgreSQL's `ON CONFLICT` handling.
 
-Local Development
-Prerequisites
-Node.js
-npm
-PostgreSQL
-A PostgreSQL database named aredl-companion
-1. Clone the repository
+## Local Development
+
+### Prerequisites
+
+- Node.js
+- npm
+- PostgreSQL
+- A PostgreSQL database named `aredl-companion`
+
+### 1. Clone the repository
+
+```bash
 git clone <repository-url>
 cd <repository-directory>
-2. Install dependencies
+```
+
+### 2. Install dependencies
 
 Install the frontend dependencies:
 
+```bash
 npm install
+```
 
 Install the backend dependencies:
 
+```bash
 cd server
 npm install
-3. Configure PostgreSQL
+```
+
+### 3. Configure PostgreSQL
 
 Create a PostgreSQL database and configure the backend connection.
 
-The backend expects the PostgreSQL password to be provided through the PGPASSWORD environment variable.
+The backend expects the PostgreSQL password to be provided through the `PGPASSWORD` environment variable.
 
-4. Start the backend
+### 4. Start the backend
+
+```bash
 node server.js
+```
 
 The API will run on:
 
+```text
 http://localhost:5000
-5. Start the frontend
+```
+
+### 5. Start the frontend
 
 From the frontend directory:
 
+```bash
 npm run dev
+```
 
 The application will then be available through the development server.
 
-Project Structure
+## Project Structure
+
+```text
 ├── components/
 │   ├── Footer.jsx
 │   ├── Header.jsx
@@ -157,7 +201,9 @@ Project Structure
 │
 ├── package.json
 └── README.md
-Current Status
+```
+
+## Current Status
 
 This project is actively being developed.
 
@@ -165,27 +211,29 @@ The current implementation focuses on establishing the full-stack architecture a
 
 Planned improvements include:
 
-User authentication
-Fully database-backed user level lists
-Additional database operations
-Improved error handling
-Input validation
-Deployment
-Automated testing
-What I Learned
+- User authentication
+- Fully database-backed user level lists
+- Additional database operations
+- Improved error handling
+- Input validation
+- Deployment
+- Automated testing
+
+## What I Learned
 
 This project has provided hands-on experience with:
 
-Building REST APIs with Express.js
-Connecting a Node.js application to PostgreSQL
-Writing parameterized SQL queries
-Designing and querying a relational database
-Integrating third-party APIs
-Normalizing external API data
-Managing state with React hooks
-Structuring reusable React components
-Communicating between frontend and backend applications
-Using Git and GitHub for version control
-License
+- Building REST APIs with Express.js
+- Connecting a Node.js application to PostgreSQL
+- Writing parameterized SQL queries
+- Designing and querying a relational database
+- Integrating third-party APIs
+- Normalizing external API data
+- Managing state with React hooks
+- Structuring reusable React components
+- Communicating between frontend and backend applications
+- Using Git and GitHub for version control
+
+## License
 
 This project is for educational and portfolio purposes.
