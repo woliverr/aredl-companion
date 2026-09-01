@@ -73,12 +73,6 @@ function App() {
         removeFn={removeLevel} 
         moveFn={moveLevel} 
       />
-      <InputForm 
-        buttonName={"Add Level"}
-        submitFn={submitLevel} 
-        formContents={levelInput}
-        updateFormFn={setLevelInput}
-      />
       <SearchApp 
         submitFn={addNewLevel}/>
       <Footer />
