@@ -53,3 +53,36 @@ app.post('/api/levels', async (req, res) => {
 
 });
 
+app.get('/api/completions/:user_id', async (req, res) => {
+    const { user_id } = req.params;
+    const query = `
+        SELECT c.level_id, c.pos, c.attempts, l.name, l.difficulty, l.uploader
+        FROM completions c
+        JOIN levels l on l.id = c.level_id
+        WHERE c.user_id = $1
+        ORDER BY c.pos
+    `;
+    const result = await pool.query(query, [user_id]);
+    res.json(result.rows);
+});
+
+app.post('/api/completions/:user_id', async (req, res) => {
+    const { user_id } = req.params;
+    const { level_id } = req.body;
+    const query = `
+        INSERT INTO completions (user_id, level_id, pos)
+        VALUES ($1, $2, COALESCE((SELECT MAX(pos) FROM completions WHERE user_id = $1), 0) + 1)
+
+    `;
+    await pool.query(query, [user_id, level_id]);
+    res.send("Success");
+});
+
+app.delete('/api/completions/:user_id/:level_id', async (req, res) => {
+    const { user_id, level_id } = req.params;
+    const query = `
+        DELETE FROM completions WHERE user_id = $1 AND level_id = $2
+    `;
+    await pool.query(query, [user_id, level_id])
+    res.send("Success");
+});
