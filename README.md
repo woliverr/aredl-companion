@@ -1,4 +1,4 @@
-# Geometry Dash Level Database
+# Geometry Dash Completion Tracker
 
 A full-stack web application for searching, storing, and managing Geometry Dash level data. The application combines a React frontend with an Express.js/Node.js backend and PostgreSQL database, with external level data provided by the Global Stats Viewer API.
 
