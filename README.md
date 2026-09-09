@@ -121,90 +121,9 @@ Add one or more levels to the PostgreSQL database.
 
 Duplicate level IDs are ignored using PostgreSQL's `ON CONFLICT` handling.
 
-## Local Development
-
-### Prerequisites
-
-- Node.js
-- npm
-- PostgreSQL
-- A PostgreSQL database named `aredl-companion`
-
-### 1. Clone the repository
-
-```bash
-git clone <repository-url>
-cd <repository-directory>
-```
-
-### 2. Install dependencies
-
-Install the frontend dependencies:
-
-```bash
-npm install
-```
-
-Install the backend dependencies:
-
-```bash
-cd server
-npm install
-```
-
-### 3. Configure PostgreSQL
-
-Create a PostgreSQL database and configure the backend connection.
-
-The backend expects the PostgreSQL password to be provided through the `PGPASSWORD` environment variable.
-
-### 4. Start the backend
-
-```bash
-node server.js
-```
-
-The API will run on:
-
-```text
-http://localhost:5000
-```
-
-### 5. Start the frontend
-
-From the frontend directory:
-
-```bash
-npm run dev
-```
-
-The application will then be available through the development server.
-
-## Project Structure
-
-```text
-├── components/
-│   ├── Footer.jsx
-│   ├── Header.jsx
-│   ├── InputForm.jsx
-│   ├── LevelCard.jsx
-│   ├── LevelList.jsx
-│   ├── SearchApp.jsx
-│   └── SearchResults.jsx
-│
-├── server/
-│   └── server.js
-│
-├── src/
-│   └── App.jsx
-│
-├── package.json
-└── README.md
-```
-
 ## Current Status
 
-This project is actively being developed.
+This project is in active development.
 
 The current implementation focuses on establishing the full-stack architecture and communication between React, Express.js, PostgreSQL, and the Global Stats Viewer API.
 
@@ -214,7 +133,6 @@ Planned improvements include:
 - Fully database-backed user level lists
 - Additional database operations
 - Improved error handling
-- Input validation
 - Deployment
 - Automated testing
 
