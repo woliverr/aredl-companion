@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const { Pool } = require('pg');
+const format = require('pg-format');
 const app = express();
 
 app.use(cors());
@@ -66,23 +67,21 @@ app.get('/api/completions/:user_id', async (req, res) => {
     res.json(result.rows);
 });
 
-app.post('/api/completions/:user_id', async (req, res) => {
+app.put('/api/completions/:user_id', async (req, res) => {
     const { user_id } = req.params;
-    const { level_id } = req.body;
-    const query = `
+    const levels = req.body;
+    const data = levels.map((level, index) => {
+        return [user_id, level, index];
+    });
+    const query = format(`
+        BEGIN;
+        DELETE FROM completions WHERE user_id = $1;
         INSERT INTO completions (user_id, level_id, pos)
-        VALUES ($1, $2, COALESCE((SELECT MAX(pos) FROM completions WHERE user_id = $1), 0) + 1)
+        VALUES %L;
+        COMMIT;
+    `, data);
 
-    `;
-    await pool.query(query, [user_id, level_id]);
-    res.send("Success");
-});
+    await pool.query(query, [user_id]);
 
-app.delete('/api/completions/:user_id/:level_id', async (req, res) => {
-    const { user_id, level_id } = req.params;
-    const query = `
-        DELETE FROM completions WHERE user_id = $1 AND level_id = $2
-    `;
-    await pool.query(query, [user_id, level_id])
-    res.send("Success");
+    res.send("Success!");
 });

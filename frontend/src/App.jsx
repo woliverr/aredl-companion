@@ -15,6 +15,8 @@ function App() {
       typeof item === "string" ? { id: crypto.randomUUID(), name: item } : item
     );
   });
+
+
   const [darkMode, setDarkMode] = useState(
     JSON.parse(localStorage.getItem("darkMode")) ?? true
   );
