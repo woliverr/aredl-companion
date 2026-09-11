@@ -63,6 +63,17 @@ function App() {
     }
   }
 
+  async function saveData(userID, levelList){
+
+    const levels = levelList.map(level => level.id)
+
+    await fetch(`http://localhost:5000/api/completions/${userID}`, {
+      method: 'PUT',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(levels)
+    })
+  }
+
 // Return function
   return (
     <div>
@@ -70,6 +81,7 @@ function App() {
         darkMode={darkMode}
         setDarkMode={setDarkMode}
       />
+      <button onClick={() => saveData(0, levelList)}> &gt;Save Data&lt; </button>
       <LevelList 
         levels={levelList} 
         removeFn={removeLevel} 

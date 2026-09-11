@@ -73,15 +73,16 @@ app.put('/api/completions/:user_id', async (req, res) => {
     const data = levels.map((level, index) => {
         return [user_id, level, index];
     });
-    const query = format(`
-        BEGIN;
-        DELETE FROM completions WHERE user_id = $1;
-        INSERT INTO completions (user_id, level_id, pos)
-        VALUES %L;
-        COMMIT;
-    `, data);
 
-    await pool.query(query, [user_id]);
+    const client = await pool.connect();
+
+    await client.query('BEGIN');
+    await client.query(`DELETE FROM completions WHERE user_id = $1;`, [user_id]);
+    const query = format(`INSERT INTO completions (user_id, level_id, pos) VALUES %L;`, data)
+    await client.query(query);
+    await client.query('COMMIT;');
+
+    client.release();
 
     res.send("Success!");
 });
