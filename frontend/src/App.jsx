@@ -3,24 +3,31 @@ import './App.css'
 import Header from '../components/header'
 import Footer from '../components/footer'
 import LevelList from '../components/LevelList'
-import InputForm from '../components/InputForm'
 import SearchApp from '../components/SearchApp'
 
 function App() {
 
 // useStates
-  const [levelList, setLevelList] = useState( () => {
-    const oldData = JSON.parse(localStorage.getItem("levelList")) ?? []
-    return oldData.map((item) => 
-      typeof item === "string" ? { id: crypto.randomUUID(), name: item } : item
-    );
-  });
 
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [levelList, setLevelList] = useState([]);
+
+  useEffect(() => {
+    loadData(0).then(() => setIsLoaded(true));
+  }, []);
 
   const [darkMode, setDarkMode] = useState(
     JSON.parse(localStorage.getItem("darkMode")) ?? true
   );
-  const [levelInput, setLevelInput] = useState('');
+
+// Debounced autosave
+  useEffect(() => {
+  if (!isLoaded) return;
+  const timeoutId = setTimeout(() => {
+    saveData(0, levelList);
+  }, 1000);
+  return () => clearTimeout(timeoutId);
+}, [levelList, isLoaded]);
 
 // Update darkMode upon toggle
   useEffect(() => {
@@ -33,18 +40,13 @@ function App() {
 
 // Update levelList upon update
   useEffect(() => {
-    localStorage.setItem("levelList", JSON.stringify(levelList))
+    if(isLoaded){
+      localStorage.setItem("levelList", JSON.stringify(levelList))
+    }
   }, [levelList]);
 
   function addNewLevel(level){
     setLevelList([...levelList, level]);
-  }
-
-// Submit level
-  function submitLevel(event) {
-    event.preventDefault();
-    addNewLevel(levelInput);
-    setLevelInput('');
   }
 
   function removeLevel(id) {
@@ -61,6 +63,15 @@ function App() {
         return newList;
       });
     }
+  }
+
+  async function loadData(userID) {
+    const levels = await fetch(`http://localhost:5000/api/completions/${userID}`, {
+      method: 'GET'
+    })
+    const data = await levels.json();
+    const normalized = data.map(level => ({ ...level, id: level.level_id }));
+    setLevelList(normalized);
   }
 
   async function saveData(userID, levelList){

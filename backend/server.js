@@ -78,8 +78,12 @@ app.put('/api/completions/:user_id', async (req, res) => {
 
     await client.query('BEGIN');
     await client.query(`DELETE FROM completions WHERE user_id = $1;`, [user_id]);
-    const query = format(`INSERT INTO completions (user_id, level_id, pos) VALUES %L;`, data)
-    await client.query(query);
+
+    if (data.length > 0){
+        const query = format(`INSERT INTO completions (user_id, level_id, pos) VALUES %L;`, data)
+        await client.query(query);
+    }
+    
     await client.query('COMMIT;');
 
     client.release();
