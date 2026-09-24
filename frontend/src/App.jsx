@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import './App.css'
-import Header from '../components/header'
-import Footer from '../components/footer'
-import LevelList from '../components/LevelList'
-import SearchApp from '../components/SearchApp'
+import Header from './components/header'
+import Footer from './components/footer'
+import LevelList from './components/LevelList'
+import SearchApp from './components/SearchApp'
 
 function App() {
 
@@ -106,3 +106,4 @@ function App() {
 }
 
 export default App
+ 
