@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import '../App.css'
-import Header from '../components/header'
 import Footer from '../components/footer'
 import LevelList from '../components/LevelList'
 import SearchApp from '../components/SearchApp'
@@ -87,11 +86,6 @@ function Profile() {
 // Return function
   return (
     <div>
-      <Header 
-        darkMode={darkMode}
-        setDarkMode={setDarkMode}
-      />
-      <button onClick={() => saveData(0, levelList)}> &gt;Save Data&lt; </button>
       <LevelList 
         levels={levelList} 
         removeFn={removeLevel} 
