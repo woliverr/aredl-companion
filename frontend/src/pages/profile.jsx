@@ -14,10 +14,6 @@ function Profile() {
     loadData(0).then(() => setIsLoaded(true));
   }, []);
 
-  const [darkMode, setDarkMode] = useState(
-    JSON.parse(localStorage.getItem("darkMode")) ?? true
-  );
-
 // Debounced autosave
   useEffect(() => {
   if (!isLoaded) return;
@@ -26,15 +22,6 @@ function Profile() {
   }, 1000);
   return () => clearTimeout(timeoutId);
 }, [levelList, isLoaded]);
-
-// Update darkMode upon toggle
-  useEffect(() => {
-    if (darkMode) {
-      document.body.classList.add('dark-mode');
-    } else {
-      document.body.classList.remove('dark-mode');
-    }
-  }, [darkMode]);
 
 // Update levelList upon update
   useEffect(() => {

@@ -1,7 +1,7 @@
 function Footer(){
     return (
         <footer>
-            <p>&copy; 2026 AREDL Companion. Made by William Oliver.</p>
+            <p>&copy; 2026 AREDL Companion.</p>
         </footer>
     )
 }

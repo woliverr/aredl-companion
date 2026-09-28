@@ -1,6 +1,16 @@
 function Login () {
     return (
-        <h1>Login route</h1>
+        <div>
+            <form action="login">
+                <div>
+                    <input type="text" placeholder="Username" name="username" />
+                </div>
+                <div>
+                    <input type="password" placeholder="Password" name="password" />
+                </div>
+                <button type="submit">Login</button>
+            </form>
+        </div>
     )
 }
 
