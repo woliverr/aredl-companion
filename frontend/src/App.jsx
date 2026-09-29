@@ -26,7 +26,7 @@ function App() {
     <Navbar darkMode={darkMode} setDarkMode={setDarkMode}/>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/profile/:user_id" element={<Profile />} />
         <Route path="/login" element={<Login />} />
       </Routes>
     </BrowserRouter>

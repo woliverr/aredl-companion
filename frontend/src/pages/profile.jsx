@@ -1,29 +1,32 @@
 import { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import '../App.css'
 import Footer from '../components/footer'
 import LevelList from '../components/LevelList'
 import SearchApp from '../components/SearchApp'
 
 function Profile() {
-// useStates
 
+  const { user_id } = useParams();
+
+  // useStates
   const [isLoaded, setIsLoaded] = useState(false);
   const [levelList, setLevelList] = useState([]);
 
   useEffect(() => {
-    loadData(0).then(() => setIsLoaded(true));
+    loadData(user_id).then(() => setIsLoaded(true));
   }, []);
 
-// Debounced autosave
+  // Debounced autosave
   useEffect(() => {
-  if (!isLoaded) return;
-  const timeoutId = setTimeout(() => {
-    saveData(0, levelList);
-  }, 1000);
-  return () => clearTimeout(timeoutId);
-}, [levelList, isLoaded]);
+    if (!isLoaded) return;
+    const timeoutId = setTimeout(() => {
+      saveData(user_id, levelList);
+    }, 1000);
+    return () => clearTimeout(timeoutId);
+  }, [levelList, isLoaded]);
 
-// Update levelList upon update
+  // Update levelList upon update
   useEffect(() => {
     if(isLoaded){
       localStorage.setItem("levelList", JSON.stringify(levelList))
