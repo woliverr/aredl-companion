@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 
-function Login () {
+function Register () {
     return (
         <div>
             <form action="login">
@@ -10,11 +10,11 @@ function Login () {
                 <div>
                     <input type="password" placeholder="Password" name="password" />
                 </div>
-                <button type="submit">Login</button>
+                <button type="submit">Register</button>
             </form>
-            <p>New user? <Link to="/register">Sign up!</Link></p>
+            <p>Already have an account? <Link to="/login">Sign in!</Link></p>
         </div>
     )
 }
 
-export default Login
+export default Register

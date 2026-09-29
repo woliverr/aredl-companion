@@ -101,3 +101,9 @@ header nav a:hover {
     width: 250px;
     align-items: flex-start;
 }
+
+a {
+  color: greenyellow;
+  text-decoration: none;
+  font-weight: bold;
+}

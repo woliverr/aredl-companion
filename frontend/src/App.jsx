@@ -5,6 +5,7 @@ import Home from './pages/home'
 import Profile from './pages/profile'
 import Login from './pages/login'
 import Navbar from './components/Navbar'
+import Register from './pages/register'
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/profile/:user_id" element={<Profile />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
     </BrowserRouter>
   )
