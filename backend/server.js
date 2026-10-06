@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const { Pool } = require('pg');
 const format = require('pg-format');
+const bcrypt = require('bcrypt');
 const app = express();
 
 app.use(cors());
@@ -89,4 +90,40 @@ app.put('/api/completions/:user_id', async (req, res) => {
     client.release();
 
     res.send("Success!");
+});
+
+app.post('/api/register', async (req, res) => {
+    const { username, email, password } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const query = `
+        INSERT INTO users(username, email, password_hash)
+        VALUES($1, $2, $3)
+        RETURNING id, username
+    `;
+    const values = [username, email, hashedPassword];
+    const result = await pool.query(query, values);
+
+    const user_id = result.rows[0].id;
+    const name = result.rows[0].username;
+    res.json({ id: user_id, username: name });
+});
+
+app.post('/api/login', async (req, res) => {
+    const { email, password } = req.body;
+    const query = `
+        SELECT * FROM users
+        WHERE email = $1
+    `
+    const result = await pool.query(query, [email]);
+    const user_id = result.rows[0].id;
+    const name = result.rows[0].username;
+    const password_hash = result.rows[0].password_hash;
+
+
+    if (await bcrypt.compare(password, password_hash)) {
+        res.json({ id: user_id, username: name });
+    }
+    else {
+        res.status(401).send("nice try");
+    }
 });

@@ -13,6 +13,9 @@ function App() {
   const [darkMode, setDarkMode] = useState(
     JSON.parse(localStorage.getItem("darkMode")) ?? true
   );
+  const [loggedInUserId, setLoggedInUserId] = useState(
+    JSON.parse(localStorage.getItem("userId")) ?? undefined
+  );
   
   useEffect(() => {
     if (darkMode) {
@@ -24,12 +27,12 @@ function App() {
 
   return (
     <BrowserRouter>
-    <Navbar darkMode={darkMode} setDarkMode={setDarkMode}/>
+    <Navbar darkMode={darkMode} setDarkMode={setDarkMode} id={loggedInUserId}/>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/profile/:user_id" element={<Profile />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login setId={setLoggedInUserId} />}  />
+        <Route path="/register" element={<Register setId={setLoggedInUserId} />} />
       </Routes>
     </BrowserRouter>
   )

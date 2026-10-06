@@ -1,6 +1,6 @@
 import { NavLink } from "react-router";
 
-function Navbar({ darkMode, setDarkMode }){
+function Navbar({ darkMode, setDarkMode, id }){
     return(
         <header>
             <h1>AREDL Companion</h1>
@@ -8,7 +8,7 @@ function Navbar({ darkMode, setDarkMode }){
                 <NavLink to="/" end>
                     Home
                 </NavLink>
-                <NavLink to="/profile" end>
+                <NavLink to={`/profile/${id}`} end>
                     Profile
                 </NavLink>
                 <NavLink to="/login" end>
